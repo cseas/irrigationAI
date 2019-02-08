@@ -11,6 +11,8 @@ import weatherApi
 import json
 import time
 
+import irrigation
+
 app = Flask(__name__)
 url = ""
 ipaddr = ""
@@ -71,8 +73,11 @@ def what_to_do():
 
     moisture = request.args.get("moisture")
     print(moisture)
+    secs = irrigation.run_motor(float(moisture))
+    print("Pumping time = " + str(secs))
 
     r = make_response(json.dumps({
+        "time": secs,
         "message": moisture
     }))
 
@@ -80,6 +85,6 @@ def what_to_do():
 
 
 if __name__ == '__main__':
-    weather_fetcher = Thread(name='weatherFetcher', target=get_weather_params())
+    weather_fetcher = Thread(name='weatherFetcher', target=get_weather_params)
     weather_fetcher.start()
     app.run(port=8080, host='0.0.0.0')

@@ -2,7 +2,11 @@ from sklearn.cross_decomposition import PLSRegression
 # from sklearn.ensemble import RandomForestRegressor
 
 import pandas as pd
-X = pd.read_csv("weather_data.csv")
+
+# Used weather_data_copy.csv as weather_data.csv lacks the 'date' column, used in line 12
+X = pd.read_csv("weather_data_copy.csv")
+
+# removed the last value = 239.5, due to mismatch in no. of examples
 y = pd.read_csv("water_required.csv")
 
 X = X.drop('date', axis = 1)
